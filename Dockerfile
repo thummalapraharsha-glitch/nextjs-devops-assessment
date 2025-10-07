@@ -1,8 +1,11 @@
 # Stage 1 — deps
 FROM node:18-alpine AS deps
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN if [ -f package-lock.json ]; then npm ci --production=false; else npm install; fi
+COPY package*.json ./
+RUN npm install
+
+COPY . . 
+RUN npm run build
 
 # Stage 2 — build
 FROM node:18-alpine AS builder
